@@ -1,5 +1,6 @@
 import Foundation
 import XCTestHTMLReportCore
+import ZIPFoundation
 
 print("XCTestHTMLReport \(version)")
 
@@ -54,12 +55,16 @@ Logger.step("Building HTML..")
 let html = summary.generatedHtmlReport()
 
 do {
-    let path = result.values.first!
+    let root = result.values.first!
         .dropLastPathComponent()
+    let path = root
         .addPathComponent("index.html")
     Logger.substep("Writing report to \(path)")
 
     try html.write(toFile: path, atomically: false, encoding: .utf8)
+    Logger.substep("Copying dependencies to \(root)")
+    let dependenciesURL = Bundle.module.url(forResource: "dependencies", withExtension: "zip")!
+    try FileManager.default.unzipItem(at: dependenciesURL, to: URL(fileURLWithPath: root, isDirectory: true))
     Logger.success("\nReport successfully created at \(path)")
 }
 catch let e {

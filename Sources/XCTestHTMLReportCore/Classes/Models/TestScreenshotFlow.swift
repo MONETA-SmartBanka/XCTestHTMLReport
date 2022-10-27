@@ -37,7 +37,11 @@ struct ScreenshotFlowAttachment: HTML {
     let className: String
 
     var htmlTemplate: String {
-        return "<img class=\"\(className)\" src=\"[[SRC]]\" id=\"screenshot-[[FILENAME]]\"/>"
+        return """
+        <a href="[[SRC]]">
+        <img class="\(className)" src="[[SRC]]" id="screenshot-[[FILENAME]]"/>
+        </a>
+        """
     }
 
     var htmlPlaceholderValues: [String: String] {

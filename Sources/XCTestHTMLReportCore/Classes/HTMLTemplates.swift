@@ -12,6 +12,7 @@ struct HTMLTemplates
 
     <title>XCHTMLReport</title>
     <meta name=\"description\" content=\"Xcode Testing HTML Report\">
+    <link type="text/css" rel="stylesheet" href="css/lightgallery-bundle.css" />
 
     <style type=\"text/css\">
 
@@ -583,6 +584,14 @@ struct HTMLTemplates
   </head>
 
   <body>
+
+  <script src="js/lightgallery.umd.js"></script>
+
+      <!-- lightgallery plugins -->
+      <script src="js/plugins/lg-thumbnail.umd.js"></script>
+      <script src="js/plugins/lg-zoom.umd.js">
+
+      </script>
     <div id=\"content\">
       <header>
         <div id=\"title\">
@@ -1013,6 +1022,12 @@ struct HTMLTemplates
     document.querySelectorAll('.run')[0].classList.add(\"active\");
 
     </script>
+    <script type="text/javascript">
+      lightGallery(document.getElementById('lightgallery'), {
+          plugins: [lgZoom, lgThumbnail],
+          speed: 500
+      });
+  </script>
   </body>
   </html>
   """
@@ -1062,7 +1077,6 @@ struct HTMLTemplates
   """
     
   static let testCase = """
-    [[SCREENSHOT_TAIL]]
     <div class=\"[[ITEM_CLASS]] [[ICON_CLASS]]\">
         <span class=\"icon left test-result-icon\"></span>
         <p class=\"list-item\">
@@ -1071,7 +1085,15 @@ struct HTMLTemplates
             [[TITLE]] ([[DURATION]])
         </p>
         <div id=\"activities-[[UUID]]\" class=\"activities\">
+            <div id="lightgallery-[[UUID]]">
             [[SCREENSHOT_FLOW]]
+            </div>
+            <script type="text/javascript">
+                  lightGallery(document.getElementById('lightgallery-[[UUID]]'), {
+                      plugins: [lgZoom, lgThumbnail],
+                      speed: 500
+                  });
+              </script>
             [[ACTIVITIES]]
         </div>
     </div>
