@@ -18,13 +18,18 @@ let package = Package(
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.4.3"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
         .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.50.4"),
+        .package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.15")
     ],
     targets: [
         .executableTarget(
             name: "XCTestHTMLReport",
             dependencies: [
                 "XCTestHTMLReportCore",
+                "ZIPFoundation",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            resources: [
+                .copy("dependencies.zip")
             ]
         ),
         .target(

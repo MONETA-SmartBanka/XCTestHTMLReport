@@ -1,6 +1,7 @@
 import ArgumentParser
 import Foundation
 import XCTestHTMLReportCore
+import ZIPFoundation
 
 struct JUnitOptions: ParsableArguments {
     @Flag(name: .shortAndLong, help: ArgumentHelp("Provide JUnit XML output"))
@@ -124,6 +125,9 @@ struct XCTestHtmlReport: ParsableCommand {
 
         do {
             try html.write(toFile: indexPath, atomically: false, encoding: .utf8)
+            Logger.substep("Copying dependencies to \(path)")
+            let dependenciesURL = Bundle.module.url(forResource: "dependencies", withExtension: "zip")!
+             try FileManager.default.unzipItem(at: dependenciesURL, to: URL(fileURLWithPath: path, isDirectory: true))
         } catch {
             Logger.error("An error has occured while creating the report")
             throw error
